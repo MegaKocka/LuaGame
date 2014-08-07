@@ -13,10 +13,23 @@ function Player:new()
     state = "",
     jumpSpeed = 0,
     runSpeed = 0,
-    canJump = false
+    canJump = false,
+    animation = nil
   }
   setmetatable(object, { __index = Player })
   return object
+end
+
+function Player:init()
+  self.x = 300
+  self.y = 300
+  self.width = 32
+  self.height = 32
+  self.jumpSpeed = -800
+  self.runSpeed = 500
+  
+  self.animation = SpriteAnimation:new("entity/player.png", 32, 32, 4, 4)
+  self.animation:load(delay)
 end
 
 -- Movement functions
@@ -30,11 +43,13 @@ end
 function Player:moveRight()
   self.xSpeed = self.runSpeed
   self.state = "moveRight"
+  self.animation:flip(false, false)
 end
  
 function Player:moveLeft()
   self.xSpeed = -1 * (self.runSpeed)
   self.state = "moveLeft"
+  self.animation:flip(true, false)
 end
  
 function Player:stop()
@@ -72,4 +87,22 @@ function Player:update(dt, gravity)
       self.state = "stand"
     end
   end
+  
+  -- update the sprite animation
+  if (self.state == "stand") then
+    self.animation:switch(1, 4, 200)
+  end
+  if (self.state == "moveRight") or (self.state == "moveLeft") then
+    self.animation:switch(2, 4, 120)
+  end
+  if (self.state == "jump") or (self.state == "fall") then
+    self.animation:reset()
+    self.animation:switch(3, 1, 300)
+  end
+  self.animation:update(dt)
+end
+
+function Player:draw()
+  local x, y = math.floor(self.x), math.floor(self.y)
+  self.animation:draw(x, y)
 end

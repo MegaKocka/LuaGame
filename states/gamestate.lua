@@ -23,36 +23,32 @@ function GameState:init()
 
   -- Instantiate a player
   p = Player:new()
+  p:init()
 
-  -- Set default values for the player
-  p.x = 300
-  p.y = 300
-  p.width = 32
-  p.height = 32
-  p.jumpSpeed = -800
-  p.runSpeed = 500
+  -- List of decoration items
+  decors = {}
 
   -- Global values
   gravity = 1800
   delay = 120
-  yFloor = 500
+  yFloor = 400
 end
 
 function GameState:loadRes()
-  -- Load player animation
-  animation = SpriteAnimation:new("entity/player.png", 32, 32, 4, 4)
-  animation:load(delay)
+  gamebg = love.graphics.newImage("textures/gamebg.png")
+  treeImg = love.graphics.newImage("textures/tree.png")
+  decors[0] = Decoration:new(100, 220, treeImg)
+  decors[1] = Decoration:new(280, 220, treeImg)
+  decors[2] = Decoration:new(650, 220, treeImg)
 end
 
 function GameState:update(dt)
     -- Check keypresses
   if love.keyboard.isDown("right") then
     p:moveRight()
-    animation:flip(false, false)
   end
   if love.keyboard.isDown("left") then
     p:moveLeft()
-    animation:flip(true, false)
   end
   if love.keyboard.isDown("up") then
     p:jump()
@@ -70,28 +66,20 @@ function GameState:update(dt)
     p:hitFloor(yFloor)
   end
 
-  -- update the sprite animation
-  if (p.state == "stand") then
-    animation:switch(1, 4, 200)
-  end
-  if (p.state == "moveRight") or (p.state == "moveLeft") then
-    animation:switch(2, 4, 120)
-  end
-  if (p.state == "jump") or (p.state == "fall") then
-    animation:reset()
-    animation:switch(3, 1, 300)
-  end
-  animation:update(dt)
-
   -- Update camera position
   camera:setPosition(math.floor(p.x - width / 2), math.floor(p.y - height / 2))
 end
 
 function GameState:draw()
-    camera:set()
+  -- Background
+  love.graphics.draw(gamebg, 0, 0)
+  
+  camera:set()
 
-  -- Round down x, y
-  local x, y = math.floor(p.x), math.floor(p.y)
+  -- Draw decors
+  for i = 0, 2 do
+    decors[i]:draw()
+  end
 
   -- Ground
   g.setColor(groundColor)
@@ -99,12 +87,12 @@ function GameState:draw()
 
   -- Player
   g.setColor(255, 255, 255)
-  animation:draw(x, y)
-
+  p:draw()
+  
  camera:unset()
 
   -- debug info
-  g.print("Player coordinates: ("..x..","..y..")", 5, 5)
+  g.print("Player coordinates: ("..math.floor(p.x)..","..math.floor(p.y)..")", 5, 5)
   g.print("Current state: "..p.state, 5, 20)
 end
 

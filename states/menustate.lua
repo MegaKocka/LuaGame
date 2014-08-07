@@ -54,7 +54,7 @@ function MenuState:mousepress(x, y, button)
   if xPos >= 190 and xPos <= 460 then
 			if yPos >= 90 and yPos <= 150 then
 				sound:play()
-				print("GAME STARTED!")
+				setState(GameState:new())
 			end
 		end
 end
