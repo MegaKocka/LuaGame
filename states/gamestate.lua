@@ -34,8 +34,11 @@ function GameState:init()
 end
 
 function GameState:loadRes()
+  -- Load images
   gamebg = love.graphics.newImage("textures/gamebg.png")
   treeImg = love.graphics.newImage("textures/tree.png")
+  
+  -- Create decoration
   decors[0] = Decoration:new(100, 220, treeImg)
   decors[1] = Decoration:new(280, 220, treeImg)
   decors[2] = Decoration:new(650, 220, treeImg)

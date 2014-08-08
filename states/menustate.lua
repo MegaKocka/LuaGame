@@ -16,10 +16,13 @@ function MenuState:init()
 end
 
 function MenuState:loadRes()
+  -- Load images
   menubg = love.graphics.newImage("textures/menubg.png")
 	play_button = love.graphics.newImage("textures/button_play.png")
 	options_button = love.graphics.newImage("textures/button_options.png")
 	cursor = love.graphics.newImage("textures/cursor.png")
+  
+  -- Load sounds
   sound = love.audio.newSource("sounds/click.wav", "static")
   
   buttons[0] = Button:new(200, 100, play_button, "play")
@@ -51,6 +54,7 @@ function MenuState:keyrelease(key)
 end
 
 function MenuState:mousepress(x, y, button)
+  -- Update buttons
   local xPos = love.mouse.getX()
 	local yPos = love.mouse.getY()
   
@@ -64,6 +68,7 @@ function MenuState:mouserelease(x, y, button)
 end
 
 function MenuState:buttonClick(text)
+  -- Get button press
   if text == "play" then
     setState(GameState:new())
   end

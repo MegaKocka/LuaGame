@@ -21,6 +21,7 @@ function Player:new()
 end
 
 function Player:init()
+  -- Set default values
   self.x = 300
   self.y = 300
   self.width = 32

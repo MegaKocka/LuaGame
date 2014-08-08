@@ -9,6 +9,7 @@ require "states/menustate"
 require "states/gamestate"
 ---------------------------------------
 function love.load()
+  -- Startup with te menu
   setState(MenuState:new())
 end
 

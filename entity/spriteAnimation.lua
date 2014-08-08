@@ -1,3 +1,4 @@
+
 SpriteAnimation = {}
  
 -- Constructor

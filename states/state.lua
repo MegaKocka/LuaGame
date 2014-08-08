@@ -1,3 +1,6 @@
+--[[
+  This is the abstract skeleton of a state. Add functions here first, before implementing it in an actual state.
+]]--
 
 State = {}
 
