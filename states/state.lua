@@ -40,3 +40,7 @@ end
 function State:mouserelease(x, y, button)
   
 end
+
+function State:buttonClick(text)
+  
+end

@@ -8,9 +8,11 @@ function MenuState:new()
   return State
 end
 
--- These get overriden in subclasses
 function MenuState:init()
-  current_button_x = 0
+  buttons = {}
+  
+  mouseX = 0
+  mouseY = 0
 end
 
 function MenuState:loadRes()
@@ -19,23 +21,25 @@ function MenuState:loadRes()
 	options_button = love.graphics.newImage("textures/button_options.png")
 	cursor = love.graphics.newImage("textures/cursor.png")
   sound = love.audio.newSource("sounds/click.wav", "static")
+  
+  buttons[0] = Button:new(200, 100, play_button, "play")
+  buttons[1] = Button:new(200, 200, options_button, "options")
 end
 
 function MenuState:update(dt)
-  xPos = love.mouse.getX()
-	yPos = love.mouse.getY()
+  mouseX = love.mouse.getX()
+  mouseY = love.mouse.getY()
 end
 
 function MenuState:draw()
   love.graphics.draw(menubg,0,0)
-	
-	current_button_x = 200
 
-	love.graphics.draw(play_button,current_button_x,100)
-	love.graphics.draw(options_button,current_button_x,200)
+	for i = 0, 1 do
+    buttons[i]:draw()
+  end
 	
 	love.mouse.setVisible(false)
-	love.graphics.draw(cursor,xPos,yPos)
+	love.graphics.draw(cursor, mouseX, mouseY)
 end
 
 function MenuState:keypress(key)
@@ -47,18 +51,20 @@ function MenuState:keyrelease(key)
 end
 
 function MenuState:mousepress(x, y, button)
+  local xPos = love.mouse.getX()
+	local yPos = love.mouse.getY()
   
-  xPos = love.mouse.getX()
-	yPos = love.mouse.getY()
-  
-  if xPos >= 190 and xPos <= 460 then
-			if yPos >= 90 and yPos <= 150 then
-				sound:play()
-				setState(GameState:new())
-			end
-		end
+  for i = 0, 1 do
+    buttons[i]:update(xPos, yPos)
+  end
 end
 
 function MenuState:mouserelease(x, y, button)
   
+end
+
+function MenuState:buttonClick(text)
+  if text == "play" then
+    setState(GameState:new())
+  end
 end

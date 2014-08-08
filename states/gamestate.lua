@@ -8,7 +8,6 @@ function GameState:new()
   return State
 end
 
--- These get overriden in subclasses
 function GameState:init()
   g = love.graphics
   width = g.getWidth()
@@ -29,7 +28,7 @@ function GameState:init()
   decors = {}
 
   -- Global values
-  gravity = 1800
+  gravity = 2800
   delay = 120
   yFloor = 400
 end
@@ -111,6 +110,10 @@ function GameState:mousepress(x, y, button)
 end
 
 function GameState:mouserelease(x, y, button)
+  
+end
+
+function State:buttonClick(text)
   
 end
 

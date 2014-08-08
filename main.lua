@@ -1,15 +1,15 @@
 -- Load Classes and external .lua files
+require "camera"
+require "button"
 require "entity/Player"
 require "entity/SpriteAnimation"
-require "camera"
+require "entity/decoration"
 require "states/state"
 require "states/menustate"
 require "states/gamestate"
-require "entity/decoration"
 ---------------------------------------
 function love.load()
-  currentState = MenuState:new()
-  currentState:loadRes()
+  setState(MenuState:new())
 end
 
 function love.update(dt)
